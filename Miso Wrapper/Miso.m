@@ -3,7 +3,7 @@
 //  Miso Wrapper
 //
 //  Created by Andrew Fernandez on 6/9/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 IronsoftStudios.com All rights reserved.
 //
 
 #import "Miso.h"
@@ -54,11 +54,13 @@
                          delegate:self
                 didFinishSelector:@selector(requestTokenTicket:didFinishWithData:)
                   didFailSelector:@selector(requestTokenTicket:didFailWithError:)];
+    [consumer release];
+    [request release];
 }
 
 
 - (void)requestTokenTicket:(OAServiceTicket *)ticket didFinishWithData:(NSData *)data {
-    if (ticket.didSucceed) {
+    
         NSString *responseBody = [[NSString alloc] initWithData:data
                                                        encoding:NSUTF8StringEncoding];
         requestToken = [[OAToken alloc] initWithHTTPResponseBody:responseBody];
@@ -69,8 +71,9 @@
         
         //fire login dialog to authorize app
         MisoDialog *dialog = [[MisoDialog alloc ] initWithUrl:url misoClass:self];
+        [responseBody release];
         
-    }
+    
 }
 
 - (void)requestTokenTicket:(OAServiceTicket *)ticket didFailWithError:(NSError *)error {
@@ -119,10 +122,12 @@
                          delegate:self
                 didFinishSelector:@selector(accessTokenTicket:didFinishWithData:)
                   didFailSelector:@selector(accessTokenTicket:didFailWithError:)];
+    [consumer release];
+    [request release];
 
 }
 - (void)accessTokenTicket:(OAServiceTicket *)ticket didFinishWithData:(NSData *)data {
-    if (ticket.didSucceed) {
+    
         NSString *responseBody = [[NSString alloc] initWithData:data
                                                        encoding:NSUTF8StringEncoding];
         accessToken = [[OAToken alloc] initWithHTTPResponseBody:responseBody];
@@ -131,8 +136,8 @@
         //NSLog(@"token:%@",accessToken.secret);
         [delegate finishedAuthorizingUser];
         //NSLog(@"body:%@",responseBody);
-        
-    }
+        [responseBody release];
+    
 }
 - (void)accessTokenTicket:(OAServiceTicket *)ticket didFailWithError:(NSError *)error {
 }
@@ -162,6 +167,7 @@
         OARequestParameter *user_id = [[OARequestParameter alloc] initWithName:@"user_id" value:userid];
         NSArray *params = [NSArray arrayWithObjects:user_id, nil];
         [request setParameters:params];
+        [user_id release];
     }
     //request type is post
     [request setHTTPMethod:@"GET"];
@@ -173,6 +179,8 @@
                          delegate:self
                 didFinishSelector:@selector(apiTicket:didFinishWithData:)
                   didFailSelector:@selector(apiTicket:didFailWithError:)];
+    [consumer release];
+    [request release];
 }
 
 - (void)searchForUsersWithQuery:(NSString *)query numberOfResults:(NSString *)count{
@@ -197,11 +205,13 @@
     if(query){
         OARequestParameter *queryparam = [[OARequestParameter alloc] initWithName:@"q" value:[NSString stringWithFormat:@"%@",query]];
         [params addObject:queryparam];
+        [queryparam release];
     }
     
     if(count){
         OARequestParameter *countparam = [[OARequestParameter alloc] initWithName:@"count" value:[NSString stringWithFormat:@"%@",count]];
         [params addObject:countparam];
+        [countparam release];
     }
     
     [request setParameters:params];
@@ -216,6 +226,8 @@
                          delegate:self
                 didFinishSelector:@selector(apiTicket:didFinishWithData:)
                   didFailSelector:@selector(apiTicket:didFailWithError:)];
+    [consumer release];
+    [request release];
 }
 
 - (void)retrieveUserFollowersWithId:(NSString *)userid{
@@ -240,6 +252,7 @@
     if(userid){
         OARequestParameter *user_id = [[OARequestParameter alloc] initWithName:@"user_id" value:[NSString stringWithFormat:@"%@",userid]];
         [params addObject:user_id];
+        [user_id release];
     }
     
     
@@ -255,6 +268,8 @@
                          delegate:self
                 didFinishSelector:@selector(apiTicket:didFinishWithData:)
                   didFailSelector:@selector(apiTicket:didFailWithError:)];
+    [consumer release];
+    [request release];
 }
 - (void)retrieveFollowedUsersWithId:(NSString *)userid{
     OAConsumer *consumer = [[OAConsumer alloc] initWithKey:misoKey
@@ -278,6 +293,7 @@
     if(userid){
         OARequestParameter *user_id = [[OARequestParameter alloc] initWithName:@"user_id" value:[NSString stringWithFormat:@"%@",userid]];
         [params addObject:user_id];
+        [user_id release];
     }
     
     
@@ -293,6 +309,8 @@
                          delegate:self
                 didFinishSelector:@selector(apiTicket:didFinishWithData:)
                   didFailSelector:@selector(apiTicket:didFailWithError:)];
+    [consumer release];
+    [request release];
 }
 - (void)followUserWithId:(NSString *)userid{
     OAConsumer *consumer = [[OAConsumer alloc] initWithKey:misoKey
@@ -316,13 +334,14 @@
     if(userid){
         OARequestParameter *user_id = [[OARequestParameter alloc] initWithName:@"user_id" value:[NSString stringWithFormat:@"%@",userid]];
         [params addObject:user_id];
+        [user_id release];
     }
     
-    
+    [request setHTTPMethod:@"POST"];
     [request setParameters:params];
     
     //request type is post
-    [request setHTTPMethod:@"POST"];
+    
     
     //begin fetching oauth data
     OADataFetcher *fetcher = [[OADataFetcher alloc] init];
@@ -331,6 +350,8 @@
                          delegate:self
                 didFinishSelector:@selector(apiTicket:didFinishWithData:)
                   didFailSelector:@selector(apiTicket:didFailWithError:)];
+    [consumer release];
+    [request release];
 }
 - (void)unfollowUserWithId:(NSString *)userid{
     OAConsumer *consumer = [[OAConsumer alloc] initWithKey:misoKey
@@ -354,6 +375,7 @@
     if(userid){
         OARequestParameter *user_id = [[OARequestParameter alloc] initWithName:@"user_id" value:[NSString stringWithFormat:@"%@",userid]];
         [params addObject:user_id];
+        [user_id release];
     }
     
     
@@ -369,6 +391,8 @@
                          delegate:self
                 didFinishSelector:@selector(apiTicket:didFinishWithData:)
                   didFailSelector:@selector(apiTicket:didFailWithError:)];
+    [consumer release];
+    [request release];
 }
 
 /*************** END User API Calls **************************/
@@ -398,14 +422,17 @@
     if(query){
         OARequestParameter *queryparam = [[OARequestParameter alloc] initWithName:@"q" value:[NSString stringWithFormat:@"%@",query]];
         [params addObject:queryparam];
+        [queryparam release];
     }
     if(kind){
         OARequestParameter *kindparam = [[OARequestParameter alloc] initWithName:@"kind" value:[NSString stringWithFormat:@"%@",kind]];
         [params addObject:kindparam];
+        [kindparam release];
     }
     if(count){
         OARequestParameter *countparam = [[OARequestParameter alloc] initWithName:@"count" value:[NSString stringWithFormat:@"%@",count]];
         [params addObject:countparam];
+        [countparam release];
     }
     
     
@@ -421,6 +448,8 @@
                          delegate:self
                 didFinishSelector:@selector(apiTicket:didFinishWithData:)
                   didFailSelector:@selector(apiTicket:didFailWithError:)];
+    [consumer release];
+    [request release];
 }
 - (void)retrieveMediaDetailsWithId:(NSString *)mediaid{
     OAConsumer *consumer = [[OAConsumer alloc] initWithKey:misoKey
@@ -444,6 +473,7 @@
     if(mediaid){
         OARequestParameter *media_id = [[OARequestParameter alloc] initWithName:@"media_id" value:[NSString stringWithFormat:@"%@",mediaid]];
         [params addObject:media_id];
+        [media_id release];
     }
     
     
@@ -459,6 +489,8 @@
                          delegate:self
                 didFinishSelector:@selector(apiTicket:didFinishWithData:)
                   didFailSelector:@selector(apiTicket:didFailWithError:)];
+    [consumer release];
+    [request release];
     
 }
 - (void)retrieveTrendingMediaWithNumberOfResults:(NSString *)count{
@@ -483,6 +515,7 @@
     if(count){
         OARequestParameter *countparam = [[OARequestParameter alloc] initWithName:@"count" value:[NSString stringWithFormat:@"%@",count]];
         [params addObject:countparam];
+        [countparam release];
     }
     
     
@@ -498,6 +531,8 @@
                          delegate:self
                 didFinishSelector:@selector(apiTicket:didFinishWithData:)
                   didFailSelector:@selector(apiTicket:didFailWithError:)];
+    [consumer release];
+    [request release];
     
 }
 - (void)retrieveFavoritedMediaForUserId:(NSString *)userid{
@@ -522,6 +557,7 @@
     if(userid){
         OARequestParameter *user_id = [[OARequestParameter alloc] initWithName:@"user_id" value:[NSString stringWithFormat:@"%@",userid]];
         [params addObject:user_id];
+        [user_id release];
     }
     
     
@@ -537,6 +573,8 @@
                          delegate:self
                 didFinishSelector:@selector(apiTicket:didFinishWithData:)
                   didFailSelector:@selector(apiTicket:didFailWithError:)];
+    [consumer release];
+    [request release];
     
 }
 - (void)markNewFavoriteMediaWithId:(NSString *)mediaid{
@@ -561,13 +599,14 @@
     if(mediaid){
         OARequestParameter *media_id = [[OARequestParameter alloc] initWithName:@"media_id" value:[NSString stringWithFormat:@"%@",mediaid]];
         [params addObject:media_id];
+        [media_id release];
     }
-    
-    
-    [request setParameters:params];
     
     //request type is post
     [request setHTTPMethod:@"POST"];
+    [request setParameters:params];
+    
+    
     
     //begin fetching oauth data
     OADataFetcher *fetcher = [[OADataFetcher alloc] init];
@@ -576,6 +615,8 @@
                          delegate:self
                 didFinishSelector:@selector(apiTicket:didFinishWithData:)
                   didFailSelector:@selector(apiTicket:didFailWithError:)];
+    [consumer release];
+    [request release];
     
 }
 - (void)unmarkFavoriteMediaWithId:(NSString *)mediaid{
@@ -600,6 +641,7 @@
     if(mediaid){
         OARequestParameter *media_id = [[OARequestParameter alloc] initWithName:@"media_id" value:[NSString stringWithFormat:@"%@",mediaid]];
         [params addObject:media_id];
+        [media_id release];
     }
     
     
@@ -614,7 +656,9 @@
     [fetcher fetchDataWithRequest:request
                          delegate:self
                 didFinishSelector:@selector(apiTicket:didFinishWithData:)
-                  didFailSelector:@selector(apiTicket:didFailWithError:)]; 
+                  didFailSelector:@selector(apiTicket:didFailWithError:)];
+    [consumer release];
+    [request release];
 }
 
 /***************END Media API Calls **************************/
@@ -643,22 +687,27 @@
     if(userid){
         OARequestParameter *user_id = [[OARequestParameter alloc] initWithName:@"user_id" value:[NSString stringWithFormat:@"%@",userid]];
         [params addObject:user_id];
+        [user_id release];
     }
     if(mediaid){
         OARequestParameter *media_id = [[OARequestParameter alloc] initWithName:@"media_id" value:[NSString stringWithFormat:@"%@",mediaid]];
         [params addObject:media_id];
+        [media_id release];
     }
     if(maxid){
         OARequestParameter *max_id = [[OARequestParameter alloc] initWithName:@"max_id" value:[NSString stringWithFormat:@"%@",maxid]];
         [params addObject:max_id];
+        [max_id release];
     }
     if(since){
         OARequestParameter *since_id = [[OARequestParameter alloc] initWithName:@"since_id" value:[NSString stringWithFormat:@"%@",since]];
         [params addObject:since_id];
+        [since_id release];
     }
     if(count){
         OARequestParameter *countparam = [[OARequestParameter alloc] initWithName:@"count" value:[NSString stringWithFormat:@"%@",count]];
         [params addObject:countparam];
+        [countparam release];
     }
     
     
@@ -674,6 +723,8 @@
                          delegate:self
                 didFinishSelector:@selector(apiTicket:didFinishWithData:)
                   didFailSelector:@selector(apiTicket:didFailWithError:)];
+    [consumer release];
+    [request release];
 }
 - (void)retrieveHomeFeedForUserId:(NSString *)userid mediaId:(NSString *)mediaid withMaxId:(NSString *)maxid sinceId:(NSString *)since numberOfResults:(NSString *)count{
     OAConsumer *consumer = [[OAConsumer alloc] initWithKey:misoKey
@@ -697,22 +748,27 @@
     if(userid){
         OARequestParameter *user_id = [[OARequestParameter alloc] initWithName:@"user_id" value:[NSString stringWithFormat:@"%@",userid]];
         [params addObject:user_id];
+        [user_id release];
     }
     if(mediaid){
         OARequestParameter *media_id = [[OARequestParameter alloc] initWithName:@"media_id" value:[NSString stringWithFormat:@"%@",mediaid]];
         [params addObject:media_id];
+        [media_id release];
     }
     if(maxid){
         OARequestParameter *max_id = [[OARequestParameter alloc] initWithName:@"max_id" value:[NSString stringWithFormat:@"%@",maxid]];
         [params addObject:max_id];
+        [max_id release];
     }
     if(since){
         OARequestParameter *since_id = [[OARequestParameter alloc] initWithName:@"since_id" value:[NSString stringWithFormat:@"%@",since]];
         [params addObject:since_id];
+        [since_id release];
     }
     if(count){
         OARequestParameter *countparam = [[OARequestParameter alloc] initWithName:@"count" value:[NSString stringWithFormat:@"%@",count]];
         [params addObject:countparam];
+        [countparam release];
     }
     
     
@@ -728,6 +784,8 @@
                          delegate:self
                 didFinishSelector:@selector(apiTicket:didFinishWithData:)
                   didFailSelector:@selector(apiTicket:didFailWithError:)];
+    [consumer release];
+    [request release];
 }
 
 /***************END Feed API Calls **************************/
@@ -758,22 +816,27 @@
     if(userid){
         OARequestParameter *user_id = [[OARequestParameter alloc] initWithName:@"user_id" value:[NSString stringWithFormat:@"%@",userid]];
         [params addObject:user_id];
+        [user_id release];
     }
     if(mediaid){
         OARequestParameter *media_id = [[OARequestParameter alloc] initWithName:@"media_id" value:[NSString stringWithFormat:@"%@",mediaid]];
         [params addObject:media_id];
+        [media_id release];
     }
     if(maxid){
         OARequestParameter *max_id = [[OARequestParameter alloc] initWithName:@"max_id" value:[NSString stringWithFormat:@"%@",maxid]];
         [params addObject:max_id];
+        [max_id release];
     }
     if(since){
         OARequestParameter *since_id = [[OARequestParameter alloc] initWithName:@"since_id" value:[NSString stringWithFormat:@"%@",since]];
         [params addObject:since_id];
+        [since_id release];
     }
     if(count){
         OARequestParameter *countparam = [[OARequestParameter alloc] initWithName:@"count" value:[NSString stringWithFormat:@"%@",count]];
         [params addObject:countparam];
+        [countparam release];
     }
     
     
@@ -789,6 +852,8 @@
                          delegate:self
                 didFinishSelector:@selector(apiTicket:didFinishWithData:)
                   didFailSelector:@selector(apiTicket:didFailWithError:)];
+    [consumer release];
+    [request release];
     
 }
 - (void)createCheckinForMediaId:(NSString *)mediaid withSeasonNum:(NSString *)season episodeNum:(NSString *)episode comment:(NSString *)comment postToFacebook:(NSString *)facebook postToTwitter:(NSString *)twitter{
@@ -814,33 +879,39 @@
     if(mediaid){
         OARequestParameter *media_id = [[OARequestParameter alloc] initWithName:@"media_id" value:[NSString stringWithFormat:@"%@",mediaid]];
         [params addObject:media_id];
+        [media_id release];
     }
     if(season){
         OARequestParameter *season_num = [[OARequestParameter alloc] initWithName:@"season_num" value:[NSString stringWithFormat:@"%@",season]];
         [params addObject:season_num];
+        [season_num release];
     }
     if(episode){
         OARequestParameter *episode_num = [[OARequestParameter alloc] initWithName:@"episode_num" value:[NSString stringWithFormat:@"%@",episode]];
         [params addObject:episode_num];
+        [episode_num release];
     }
     if(comment){
         OARequestParameter *commentparam = [[OARequestParameter alloc] initWithName:@"comment" value:[NSString stringWithFormat:@"%@",comment]];
         [params addObject:commentparam];
+        [commentparam release];
     }
     if(facebook){
         OARequestParameter *facebookparam = [[OARequestParameter alloc] initWithName:@"facebook" value:[NSString stringWithFormat:@"%@",facebook]];
         [params addObject:facebookparam];
+        [facebookparam release];
     }
     if(twitter){
         OARequestParameter *twitterparam = [[OARequestParameter alloc] initWithName:@"twitter" value:[NSString stringWithFormat:@"%@",twitter]];
         [params addObject:twitterparam];
+        [twitterparam release];
     }
-    
-    
-    [request setParameters:params];
     
     //request type is post
     [request setHTTPMethod:@"POST"];
+    [request setParameters:params];
+    
+    
     
     //begin fetching oauth data
     OADataFetcher *fetcher = [[OADataFetcher alloc] init];
@@ -849,6 +920,8 @@
                          delegate:self
                 didFinishSelector:@selector(apiTicket:didFinishWithData:)
                   didFailSelector:@selector(apiTicket:didFailWithError:)];
+    [consumer release];
+    [request release];
     
 }
 
@@ -879,10 +952,12 @@
     if(userid){
         OARequestParameter *user_id = [[OARequestParameter alloc] initWithName:@"user_id" value:[NSString stringWithFormat:@"%@",userid]];
         [params addObject:user_id];
+        [user_id release];
     }
     if(category){
         OARequestParameter *categoryparam = [[OARequestParameter alloc] initWithName:@"category" value:[NSString stringWithFormat:@"%@",category]];
         [params addObject:categoryparam];
+        [categoryparam release];
     }
         
     
@@ -898,6 +973,8 @@
                          delegate:self
                 didFinishSelector:@selector(apiTicket:didFinishWithData:)
                   didFailSelector:@selector(apiTicket:didFailWithError:)];
+    [consumer release];
+    [request release];
 }
 
 /***************END Badges API Calls **************************/
@@ -923,18 +1000,21 @@
     //create an oauth parameter for the token and verifier in order to pass it to the access url
     //[request setOAuthParameterName:@"oauth_token" withValue:];
     //NSLog(@"%@",query);
-    NSMutableArray *params = [NSMutableArray arrayWithCapacity:2];
+    NSMutableArray *params = [NSMutableArray arrayWithCapacity:3];
     if(mediaid){
         OARequestParameter *media_id = [[OARequestParameter alloc] initWithName:@"media_id" value:[NSString stringWithFormat:@"%@",mediaid]];
         [params addObject:media_id];
+        [media_id release];
     }
     if(season){
         OARequestParameter *season_num = [[OARequestParameter alloc] initWithName:@"season_num" value:[NSString stringWithFormat:@"%@",season]];
         [params addObject:season_num];
+        [season_num release];
     }
     if(count){
         OARequestParameter *countparam = [[OARequestParameter alloc] initWithName:@"count" value:[NSString stringWithFormat:@"%@",count]];
         [params addObject:countparam];
+        [countparam release];
     }
     
     
@@ -949,7 +1029,9 @@
     [fetcher fetchDataWithRequest:request
                          delegate:self
                 didFinishSelector:@selector(apiTicket:didFinishWithData:)
-                  didFailSelector:@selector(apiTicket:didFailWithError:)];     
+                  didFailSelector:@selector(apiTicket:didFailWithError:)];   
+    [consumer release];
+    [request release];
 }
 
 - (void)retrieveEpisodeInfoForMediaId:(NSString *)media withSeasonNum:(NSString *)season episodeNum:(NSString *)episode{
@@ -970,18 +1052,21 @@
     //create an oauth parameter for the token and verifier in order to pass it to the access url
     //[request setOAuthParameterName:@"oauth_token" withValue:];
     //NSLog(@"%@",query);
-    NSMutableArray *params = [NSMutableArray arrayWithCapacity:2];
+    NSMutableArray *params = [NSMutableArray arrayWithCapacity:3];
     if(media){
         OARequestParameter *media_id = [[OARequestParameter alloc] initWithName:@"media_id" value:[NSString stringWithFormat:@"%@",media]];
         [params addObject:media_id];
+        [media_id release];
     }
     if(season){
         OARequestParameter *season_num = [[OARequestParameter alloc] initWithName:@"season_num" value:[NSString stringWithFormat:@"%@",season]];
         [params addObject:season_num];
+        [season_num release];
     }
     if(episode){
         OARequestParameter *episode_num = [[OARequestParameter alloc] initWithName:@"episode_num" value:[NSString stringWithFormat:@"%@",episode]];
         [params addObject:episode_num];
+        [episode_num release];
     }
     
     
@@ -996,7 +1081,9 @@
     [fetcher fetchDataWithRequest:request
                          delegate:self
                 didFinishSelector:@selector(apiTicket:didFinishWithData:)
-                  didFailSelector:@selector(apiTicket:didFailWithError:)]; 
+                  didFailSelector:@selector(apiTicket:didFailWithError:)];
+    [consumer release];
+    [request release];
 }
 
 
@@ -1031,7 +1118,9 @@
     [fetcher fetchDataWithRequest:request
                          delegate:self
                 didFinishSelector:@selector(apiTicket:didFinishWithData:)
-                  didFailSelector:@selector(apiTicket:didFailWithError:)]; 
+                  didFailSelector:@selector(apiTicket:didFailWithError:)];
+    [consumer release];
+    [request release];
 }
 
 - (void)retrieveSingleNotificationWithId:(NSString *)notificationid{
@@ -1052,10 +1141,11 @@
     //create an oauth parameter for the token and verifier in order to pass it to the access url
     //[request setOAuthParameterName:@"oauth_token" withValue:];
     //NSLog(@"%@",query);
-    NSMutableArray *params = [NSMutableArray arrayWithCapacity:2];
+    NSMutableArray *params = [NSMutableArray arrayWithCapacity:1];
     if(notificationid){
         OARequestParameter *notification_id = [[OARequestParameter alloc] initWithName:@"notification_id" value:[NSString stringWithFormat:@"%@",notificationid]];
         [params addObject:notification_id];
+        [notification_id release];
     }
     
     
@@ -1070,6 +1160,8 @@
                          delegate:self
                 didFinishSelector:@selector(apiTicket:didFinishWithData:)
                   didFailSelector:@selector(apiTicket:didFailWithError:)];
+    [consumer release];
+    [request release];
 }
 
 /***************END Notifications API Calls **************************/
@@ -1083,6 +1175,7 @@
     NSDictionary *responsedata = [responseBody JSONValue];
     //NSLog(@"%@",responsedata);    
     [delegate finishedRetrievingApi:responsedata];
+    [responseBody release];
     
 }
 

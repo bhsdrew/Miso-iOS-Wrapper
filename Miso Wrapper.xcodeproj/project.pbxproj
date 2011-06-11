@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		601C5DAC13A3351E00E97D8D /* closebutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 601C5DAA13A3351D00E97D8D /* closebutton.png */; };
+		601C5DAD13A3351E00E97D8D /* closebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 601C5DAB13A3351D00E97D8D /* closebutton@2x.png */; };
 		603BF23F13A19E6800D8BC09 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 603BF20B13A19E6800D8BC09 /* NSObject+SBJSON.m */; };
 		603BF24013A19E6800D8BC09 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 603BF20D13A19E6800D8BC09 /* NSString+SBJSON.m */; };
 		603BF24113A19E6800D8BC09 /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 603BF20F13A19E6800D8BC09 /* SBJSON.m */; };
@@ -45,6 +47,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		601C5DAA13A3351D00E97D8D /* closebutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = closebutton.png; sourceTree = "<group>"; };
+		601C5DAB13A3351D00E97D8D /* closebutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "closebutton@2x.png"; sourceTree = "<group>"; };
 		603BF20913A19E6800D8BC09 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		603BF20A13A19E6800D8BC09 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		603BF20B13A19E6800D8BC09 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -245,6 +249,8 @@
 				94C2192B13A15A5700485DBF /* Miso.m */,
 				603BF29C13A1A32400D8BC09 /* MisoDialog.h */,
 				603BF29D13A1A32400D8BC09 /* MisoDialog.m */,
+				601C5DAA13A3351D00E97D8D /* closebutton.png */,
+				601C5DAB13A3351D00E97D8D /* closebutton@2x.png */,
 				94C218AE13A1556500485DBF /* Supporting Files */,
 			);
 			path = "Miso Wrapper";
@@ -315,6 +321,8 @@
 				94C218C113A1556500485DBF /* Miso_WrapperViewController.xib in Resources */,
 				603BF25313A19E6800D8BC09 /* OATestServer.rb in Resources */,
 				603BF25713A19E6800D8BC09 /* README in Resources */,
+				601C5DAC13A3351E00E97D8D /* closebutton.png in Resources */,
+				601C5DAD13A3351E00E97D8D /* closebutton@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

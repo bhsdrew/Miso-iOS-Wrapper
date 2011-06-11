@@ -3,7 +3,7 @@
 //  Miso Wrapper
 //
 //  Created by Andrew Fernandez on 6/9/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 IronsoftStudios.com All rights reserved.
 //
 
 #import "MisoDialog.h"
@@ -37,6 +37,10 @@
     return YES;
 }
 
+- (void)dismissMisoWebView{
+    [self.view removeFromSuperview];
+}
+
 - (void)dealloc
 {
     [super dealloc];
@@ -61,7 +65,7 @@
 
 -(id) initWithUrl:(NSURL *)authurl misoClass:(Miso *)misoparent{
     self.misoconsumer = misoparent;
-    UIWebView *authscreen = [[UIWebView alloc] initWithFrame:CGRectMake(20, 20, 280, 400)];
+    UIWebView *authscreen = [[UIWebView alloc] initWithFrame:CGRectMake(20, 0, 280, 380)];
     [authscreen loadRequest:[NSURLRequest requestWithURL:authurl]];
     [authscreen setDelegate:self];
     UIViewController *authview = [[UIViewController alloc] init];
@@ -74,7 +78,7 @@
     
     [misoclose setTitle:@"" forState:UIControlStateNormal];
     [misoclose addTarget:self action:@selector(dismissMisoWebView) forControlEvents:UIControlEventTouchUpInside];
-    misoclose.frame = CGRectMake(275, 0, 37, 38);
+    misoclose.frame = CGRectMake(275, -15, 37, 38);
     [authview.view addSubview:misoclose];
     [self.view addSubview:authview.view];
     UIWindow* window = [UIApplication sharedApplication].keyWindow;
