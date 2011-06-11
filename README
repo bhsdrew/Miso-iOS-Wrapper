@@ -1,1 +1,97 @@
-Miso ios Wrapper
+iOS Wrapper for the Miso API
+
+
+1) Add Miso.H , Miso.M , MisoDialog.h , MisoDialog.m, JSON Folder, OAUTH Folder, and closebutton images to your xcode project
+
+2) Update your miso secret and key in Miso.m
+   #define misoSecret          @"SECRET"
+   #define misoKey             @"KEY"
+
+3) In any viewcontroller or Appdelegate create a Miso object in as a property in the .h file
+
+4) In the same .h file make the @interface have the <MisoDelegate>
+
+5) Add the delegate functions to the .m file
+   - (void)finishedAuthorizingUser
+   - (void)finishedRetrievingApi:(NSDictionary *)data
+
+6) Initialize the Miso Class which will fire the login popup uiwebview
+   Ex.
+    misotest = [Miso alloc];
+    [misotest setDelegate:self];
+    [misotest initiateMiso];
+
+7) Call any of the Wrapper Methods
+   See below
+
+8) Retrieve data NSDictionary in the finishedRetrievingApi method
+
+9) Enjoy
+
+
+
+
+**************************************************************************************************************
+Ex.
+/****************user detail example calls********************/
+    
+    [misotest retrieveUserDetailsWithId:nil];
+    [misotest retrieveUserDetailsWithId:@"182398"];
+    
+    [misotest searchForUsersWithQuery:@"rego" numberOfResults:nil];
+    [misotest searchForUsersWithQuery:@"somrat" numberOfResults:@"1"];
+    
+    [misotest retrieveUserFollowersWithId:nil];
+    [misotest retrieveUserFollowersWithId:@"8"];
+    
+    [misotest retrieveFollowedUsersWithId:@"8"];
+    [misotest retrieveFollowedUsersWithId:nil];
+    
+    [misotest followUserWithId:@"182398"];
+    [misotest unfollowUserWithId:@"182398"];
+    
+/*****************media detail examples calls************************/
+    
+    [misotest searchMediaListingWithQuery:@"stargate" ofKind:@"TvShow" numberOfResults:@"15"];
+    [misotest searchMediaListingWithQuery:@"stargate" ofKind:@"Movie" numberOfResults:@"15"];
+    [misotest searchMediaListingWithQuery:@"stargate" ofKind:nil numberOfResults:nil];
+    
+    [misotest retrieveMediaDetailsWithId:@"14300"];
+    
+    [misotest retrieveTrendingMediaWithNumberOfResults:@"10"];
+    [misotest retrieveTrendingMediaWithNumberOfResults:nil];
+    
+    [misotest retrieveFavoritedMediaForUserId:nil];
+    [misotest retrieveFavoritedMediaForUserId:@"8"];
+    
+    [misotest markNewFavoriteMediaWithId:@"14300"];
+    [misotest unmarkFavoriteMediaWithId:@"14300"];
+    
+/*****************feed detail examples calls************************/
+    
+    [misotest retrieveFeedForUserId:nil mediaId:nil withMaxId:nil sinceId:nil numberOfResults:nil];
+    [misotest retrieveFeedForUserId:@"8" mediaId:nil withMaxId:nil sinceId:nil numberOfResults:nil];
+    [misotest retrieveHomeFeedForUserId:nil mediaId:nil withMaxId:nil sinceId:nil numberOfResults:nil];
+    
+/*****************checkin detail examples calls************************/
+    
+    [misotest retrieveRecentCheckinsForUserId:@"155932" mediaId:nil withMaxId:nil sinceId:nil numberOfResults:nil];
+    
+    [misotest createCheckinForMediaId:@"14300" withSeasonNum:@"2" episodeNum:@"1" comment:@"Test Checkin" postToFacebook:@"false" postToTwitter:@"false"];
+    
+/*****************Badges detail examples calls************************/
+    
+    [misotest retrieveListOfBadgesForUserId:@"155932" inCategory:@"achievement"];
+    
+/*****************Episodes detail examples calls************************/
+    
+    [misotest retrieveEpisodesForMediaId:@"14300" withSeasonNum:@"2" numberOfResults:nil];
+    [misotest retrieveEpisodeInfoForMediaId:@"14300" withSeasonNum:@"2" episodeNum:@"2"];
+    
+/*****************Notifications detail examples calls************************/
+    
+    [misotest retrieveNotificationsForUser];
+    [misotest retrieveSingleNotificationWithId:@"368059"];
+
+
+
