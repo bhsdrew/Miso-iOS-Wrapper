@@ -1,5 +1,5 @@
 //
-//  Miso_WrapperAppDelegate.h
+//  Miso_WrapperAppDelegate.h Now on github
 //  Miso Wrapper
 //
 //  Created by Andrew Fernandez on 6/9/11.
