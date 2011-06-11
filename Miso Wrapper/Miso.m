@@ -10,8 +10,8 @@
 #import "MisoDialog.h"
 #import "JSON.h"
 
-#define misoSecret          @"owVan8cfLOZmmNWGlASjCm7zWJ9QVMb112HnJaDr"
-#define misoKey             @"XTCOaZSCrWaSBzXVSXdv"
+#define misoSecret          @"SECRET"
+#define misoKey             @"KEY"
 
 @implementation Miso
 @synthesize requestToken,accessToken,authorizeParams,delegate;
